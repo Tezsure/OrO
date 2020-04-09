@@ -1,0 +1,259 @@
+[
+  {
+    "prim": "storage",
+    "args": [
+      {
+        "prim": "pair",
+        "args": [
+          {
+            "prim": "map",
+            "args": [
+              { "prim": "string" },
+              {
+                "prim": "pair",
+                "args": [
+                  { "prim": "int", "annots": [ "%humidity" ] },
+                  { "prim": "pair", "args": [ { "prim": "int", "annots": [ "%pressure" ] }, { "prim": "int", "annots": [ "%temperature" ] } ] }
+                ]
+              }
+            ],
+            "annots": [ "%apidata" ]
+          },
+          { "prim": "set", "args": [ { "prim": "address" } ], "annots": [ "%keysset" ] }
+        ]
+      }
+    ]
+  },
+  {
+    "prim": "parameter",
+    "args": [
+      {
+        "prim": "or",
+        "args": [
+          {
+            "prim": "pair",
+            "args": [
+              { "prim": "pair", "args": [ { "prim": "string", "annots": [ "%city" ] }, { "prim": "int", "annots": [ "%humidity" ] } ] },
+              { "prim": "pair", "args": [ { "prim": "int", "annots": [ "%pressure" ] }, { "prim": "int", "annots": [ "%temperature" ] } ] }
+            ],
+            "annots": [ "%feedData" ]
+          },
+          { "prim": "string", "annots": [ "%getDataFromOrO" ] }
+        ]
+      }
+    ]
+  },
+  {
+    "prim": "code",
+    "args": [
+      [
+        { "prim": "DUP" },
+        { "prim": "CDR" },
+        { "prim": "SWAP" },
+        { "prim": "CAR" },
+        {
+          "prim": "IF_LEFT",
+          "args": [
+            [
+              [
+                { "prim": "SWAP" },
+                { "prim": "DUP" },
+                { "prim": "DUG", "args": [ { "int": "2" } ] },
+                { "prim": "CDR" },
+                { "prim": "SENDER" },
+                { "prim": "MEM" },
+                {
+                  "prim": "IF",
+                  "args": [
+                    [
+                      [
+                        { "prim": "SWAP" },
+                        { "prim": "DUP" },
+                        { "prim": "DUG", "args": [ { "int": "2" } ] },
+                        { "prim": "DUP" },
+                        { "prim": "CDR" },
+                        { "prim": "SWAP" },
+                        { "prim": "CAR" },
+                        { "prim": "DIG", "args": [ { "int": "2" } ] },
+                        { "prim": "DUP" },
+                        { "prim": "DUG", "args": [ { "int": "3" } ] },
+                        { "prim": "CDR" },
+                        { "prim": "CDR" },
+                        { "prim": "DIG", "args": [ { "int": "3" } ] },
+                        { "prim": "DUP" },
+                        { "prim": "DUG", "args": [ { "int": "4" } ] },
+                        { "prim": "CDR" },
+                        { "prim": "CAR" },
+                        { "prim": "PAIR", "annots": [ "%pressure", "%temperature" ] },
+                        { "prim": "DIG", "args": [ { "int": "3" } ] },
+                        { "prim": "DUP" },
+                        { "prim": "DUG", "args": [ { "int": "4" } ] },
+                        { "prim": "CAR" },
+                        { "prim": "CDR" },
+                        { "prim": "PAIR", "annots": [ "%humidity" ] },
+                        { "prim": "SOME" },
+                        { "prim": "DIG", "args": [ { "int": "3" } ] },
+                        { "prim": "DUP" },
+                        { "prim": "DUG", "args": [ { "int": "4" } ] },
+                        { "prim": "CAR" },
+                        { "prim": "CAR" },
+                        { "prim": "UPDATE" },
+                        { "prim": "PAIR" },
+                        { "prim": "DUG", "args": [ { "int": "2" } ] },
+                        { "prim": "SWAP" },
+                        { "prim": "DROP" }
+                      ]
+                    ],
+                    [ [] ]
+                  ]
+                },
+                { "prim": "DROP" },
+                { "prim": "NIL", "args": [ { "prim": "operation" } ] }
+              ]
+            ],
+            [
+              [
+                { "prim": "PUSH", "args": [ { "prim": "mutez" }, { "int": "3000" } ] },
+                { "prim": "AMOUNT" },
+                { "prim": "COMPARE" },
+                { "prim": "EQ" },
+                {
+                  "prim": "IF",
+                  "args": [
+                    [
+                      [
+                        { "prim": "SWAP" },
+                        { "prim": "DUP" },
+                        { "prim": "DUG", "args": [ { "int": "2" } ] },
+                        { "prim": "CAR" },
+                        { "prim": "SWAP" },
+                        { "prim": "DUP" },
+                        { "prim": "DUG", "args": [ { "int": "2" } ] },
+                        { "prim": "MEM" },
+                        {
+                          "prim": "IF",
+                          "args": [
+                            [
+                              [
+                                { "prim": "NIL", "args": [ { "prim": "operation" } ] },
+                                { "prim": "SENDER" },
+                                {
+                                  "prim": "CONTRACT",
+                                  "args": [
+                                    {
+                                      "prim": "pair",
+                                      "args": [
+                                        { "prim": "int", "annots": [ "%humidity" ] },
+                                        { "prim": "pair", "args": [ { "prim": "int", "annots": [ "%pressure" ] }, { "prim": "int", "annots": [ "%temperature" ] } ] }
+                                      ]
+                                    }
+                                  ],
+                                  "annots": [ "%receiveDataFromOrO" ]
+                                },
+                                { "prim": "IF_NONE", "args": [ [ [ { "prim": "PUSH", "args": [ { "prim": "unit" }, { "prim": "Unit" } ] }, { "prim": "FAILWITH" } ] ], [ [] ] ] },
+                                { "prim": "PUSH", "args": [ { "prim": "mutez" }, { "int": "0" } ] },
+                                { "prim": "DIG", "args": [ { "int": "4" } ] },
+                                { "prim": "DUP" },
+                                { "prim": "DUG", "args": [ { "int": "5" } ] },
+                                { "prim": "CAR" },
+                                { "prim": "DIG", "args": [ { "int": "4" } ] },
+                                { "prim": "DUP" },
+                                { "prim": "DUG", "args": [ { "int": "5" } ] },
+                                { "prim": "GET" },
+                                {
+                                  "prim": "IF_NONE",
+                                  "args": [ [ [ { "prim": "PUSH", "args": [ { "prim": "string" }, { "string": "Get-item:19" } ] }, { "prim": "FAILWITH" } ] ], [] ]
+                                },
+                                { "prim": "TRANSFER_TOKENS" },
+                                { "prim": "CONS" }
+                              ]
+                            ],
+                            [
+                              [
+                                { "prim": "NIL", "args": [ { "prim": "operation" } ] },
+                                { "prim": "SENDER" },
+                                {
+                                  "prim": "CONTRACT",
+                                  "args": [
+                                    {
+                                      "prim": "pair",
+                                      "args": [
+                                        { "prim": "int", "annots": [ "%humidity" ] },
+                                        { "prim": "pair", "args": [ { "prim": "int", "annots": [ "%pressure" ] }, { "prim": "int", "annots": [ "%temperature" ] } ] }
+                                      ]
+                                    }
+                                  ],
+                                  "annots": [ "%receiveDataFromOrO" ]
+                                },
+                                { "prim": "IF_NONE", "args": [ [ [ { "prim": "PUSH", "args": [ { "prim": "unit" }, { "prim": "Unit" } ] }, { "prim": "FAILWITH" } ] ], [ [] ] ] },
+                                { "prim": "PUSH", "args": [ { "prim": "mutez" }, { "int": "0" } ] },
+                                {
+                                  "prim": "PUSH",
+                                  "args": [
+                                    {
+                                      "prim": "pair",
+                                      "args": [
+                                        { "prim": "int", "annots": [ "%humidity" ] },
+                                        { "prim": "pair", "args": [ { "prim": "int", "annots": [ "%pressure" ] }, { "prim": "int", "annots": [ "%temperature" ] } ] }
+                                      ]
+                                    },
+                                    { "prim": "Pair", "args": [ { "int": "0" }, { "prim": "Pair", "args": [ { "int": "0" }, { "int": "0" } ] } ] }
+                                  ]
+                                },
+                                { "prim": "TRANSFER_TOKENS" },
+                                { "prim": "CONS" }
+                              ]
+                            ]
+                          ]
+                        }
+                      ]
+                    ],
+                    [
+                      [
+                        { "prim": "NIL", "args": [ { "prim": "operation" } ] },
+                        { "prim": "SENDER" },
+                        {
+                          "prim": "CONTRACT",
+                          "args": [
+                            {
+                              "prim": "pair",
+                              "args": [
+                                { "prim": "int", "annots": [ "%humidity" ] },
+                                { "prim": "pair", "args": [ { "prim": "int", "annots": [ "%pressure" ] }, { "prim": "int", "annots": [ "%temperature" ] } ] }
+                              ]
+                            }
+                          ],
+                          "annots": [ "%receiveDataFromOrO" ]
+                        },
+                        { "prim": "IF_NONE", "args": [ [ [ { "prim": "PUSH", "args": [ { "prim": "unit" }, { "prim": "Unit" } ] }, { "prim": "FAILWITH" } ] ], [ [] ] ] },
+                        { "prim": "PUSH", "args": [ { "prim": "mutez" }, { "int": "0" } ] },
+                        {
+                          "prim": "PUSH",
+                          "args": [
+                            {
+                              "prim": "pair",
+                              "args": [
+                                { "prim": "int", "annots": [ "%humidity" ] },
+                                { "prim": "pair", "args": [ { "prim": "int", "annots": [ "%pressure" ] }, { "prim": "int", "annots": [ "%temperature" ] } ] }
+                              ]
+                            },
+                            { "prim": "Pair", "args": [ { "int": "0" }, { "prim": "Pair", "args": [ { "int": "0" }, { "int": "0" } ] } ] }
+                          ]
+                        },
+                        { "prim": "TRANSFER_TOKENS" },
+                        { "prim": "CONS" }
+                      ]
+                    ]
+                  ]
+                },
+                { "prim": "SWAP" },
+                { "prim": "DROP" }
+              ]
+            ]
+          ]
+        },
+        { "prim": "PAIR" }
+      ]
+    ]
+  }
+]

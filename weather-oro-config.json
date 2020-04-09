@@ -1,0 +1,39 @@
+{
+   "tezosConfig": {
+      "nodeAddress": "ADDRESS-WHERE-YOU-ARE-GOING-TO-DEPLOY YOUR-SMART-CONTRACT",
+      "publicKey": "PUBLIC-KEY-WHICH-WILL-BE-USED-TO-SEND-TRANSACTION-TO-BLOCKCHAIN",
+      "privateKey": "PRIVATE-KEY-WHICH-WILL-BE-USED-TO-SEND-TRANSACTION-TO-BLOCKCHAIN",
+      "keyHash": "KEY-HASH-WHICH-WILL-BE-USED-TO-SEND-TRANSACTION-TO-BLOCKCHAIN",
+      "contractAddress": "KT1-ADDRESS-OF-THE-CONTRACT",
+      "conseilServerAddress": "CONSEIL-SERVER-ADDRESS",
+      "conseilServerAPIKEY": "API-KEY-FROM-NAUTILAS-CLOUD",
+      "conseilServerNetwork": "NETWORK-NAME FOR EXAMPLE (carthagenet)"
+   },
+   "oracleInterval": 30,
+   "oracleConfig": [
+      {
+         "city": "CITY_1_NAME",
+         "endPoints": [
+            {
+               "link": "ENDPOINT_TO_READ_DATA_FROM",
+               "temperaturePosition": "DATA_POSITION_IN_JSON_RESPONSE",
+               "tempUnit": "TEMPERATURE_UNIT",
+               "pressurePosition": "DATA_POSITION_IN_JSON_RESPONSE",
+               "humidityPosition": "DATA_POSITION_IN_JSON_RESPONSE"
+            }
+         ]
+      },
+      {
+         "city": "CITY_2_NAME",
+         "endPoints": [
+            {
+               "link": "ENDPOINT_TO_READ_DATA_FROM",
+               "temperaturePosition": "DATA_POSITION_IN_JSON_RESPONSE",
+               "tempUnit": "TEMPERATURE_UNIT",
+               "pressurePosition": "DATA_POSITION_IN_JSON_RESPONSE",
+               "humidityPosition": "DATA_POSITION_IN_JSON_RESPONSE"
+            }
+         ]
+      }
+   ]
+}

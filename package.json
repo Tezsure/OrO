@@ -1,0 +1,40 @@
+{
+  "name": "tezsure-weather-oracle",
+  "version": "1.0.0",
+  "description": "A weather oracle on tezos blockchain",
+  "engines": {
+    "node": ">= 12.13 <13"
+  },
+  "dependencies": {
+    "conseiljs": "^0.4.1",
+    "request": "^2.88.2",
+    "request-promise": "^4.2.5",
+    "winston": "^3.2.1"
+  },
+  "devDependencies": {
+    "@types/node": "^13.11.1",
+    "@types/winston": "^2.4.4",
+    "@typescript-eslint/eslint-plugin": "~2.19.2",
+    "@typescript-eslint/parser": "~2.19.2",
+    "eslint": "~6.8.0",
+    "eslint-config-prettier": "~6.10.0",
+    "rimraf": "~3.0.2",
+    "tslib": "~1.10.0",
+    "typescript": "~3.8.2"
+  },
+  "scripts": {
+    "clean": "rimraf build tmp",
+    "build": "tsc -p tsconfig.release.json",
+    "build:watch": "tsc -w -p tsconfig.release.json",
+    "lint": "eslint . --ext .ts,.tsx",
+    "weather-oro": "npm run build && node build/src/main.js",
+    "deploy-oro-contract": "node oro-contract/deployOrOContract.js"
+  },
+  "author": "Tezsure Inc.",
+  "license": "MIT",
+  "keywords": [
+    "tezos",
+    "blockchain",
+    "oracle"
+  ]
+}
