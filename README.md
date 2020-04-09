@@ -20,7 +20,7 @@ A contract which uses OrO contract data to run a business use case. A client con
 1. To run OrO node and to consume data from Oro Node using a client contract you have to deploy OrO Contract.
 2. Once your OrO contract is deployed, you can feed data points using OrO Node provided by tezsure.
 3. Once the OrO node is successfully running, anyone can with a client contract can consume relevant data from OrO contract.
-4. A client contract should have **'recieveDataFromOrO'** entrypoint to receive data from OrO contract. OrO contract sends three integer parameters namely temperature, pressure and humidity. A client contract can have another entry point to fetch data from OrO contract. A sample client contract is under **client-contract** folder.
+4. A client contract should have **'recieveDataFromOrO'** entrypoint to receive data from OrO contract. OrO contract sends three integer parameters namely temperature, pressure and humidity. A client contract can have another entry point to fetch data from OrO contract. A sample client contract is under **[client-contract][client-contract]** folder.
 5. While deploying client contract make sure you have given correct OrO contract’s address and provide your client some tezzie which can be used to pay to OrO contract as fee. Default fee is set to 3000 tezzie in OrO contract.
 6. Test the client contract by sending the requesting your entrypoint to fetch data from OrO contract.
 
@@ -41,7 +41,7 @@ npm install
 
 ### Develop and deploy OrO contract
 
-A Weather Oracle contract is provided under **'oro-contract'** directory.
+A Weather Oracle contract is provided under **[oro-contract][oro-contract]** directory.
 Change **CONTRACT_OWNER** value under **deployOrOContract.js**. Also provide relevant keys for the contract owner.
 Use following command to deploy OrO contract. 
 ```
@@ -109,7 +109,7 @@ Our OrO node will average all API data for a city and send it to your Oracle con
 
 ```
 
-Please refer test-weather-oro-config.json file under **test** folder for reference purpose.
+Please refer test-weather-oro-config.json file under **[test][test]** folder for reference purpose.
 
 ### Start the OrO Node
 Run
@@ -124,7 +124,7 @@ npm run weather-oro
 + `lint` - lint source files and tests
 
 ### Develop and deploy and client contract and test your Oracle
-A sample client contract is under **client-contract** folder.
+A sample client contract is under **[client-contract][client-contract]** folder.
 A client contract should have **'recieveDataFromOrO'** entrypoint to receive data from OrO contract.
 Here is a smartpy snippet for reference. [Smartpy][smartpy]
 
@@ -149,4 +149,7 @@ sp.transfer(mydata,sp.mutez(3000),c)
 Licensed under the MIT. See the [LICENSE](https://github.com/Tezsure/tezsure-weather-OrO/blob/master/LICENSE) file for details.
 
 [nodejs]: https://nodejs.org/dist/latest-v12.x/docs/api/
-[smartpy]: httpa://smartpy.io/dev/
+[smartpy]: https://smartpy.io/dev/
+[client-contract]: https://github.com/Tezsure/tezsure-weather-OrO/tree/master/client-contract
+[test]: https://github.com/Tezsure/tezsure-weather-OrO/tree/master/test
+[oro-contract]: https://github.com/Tezsure/tezsure-weather-OrO/tree/master/oro-contract
