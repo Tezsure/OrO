@@ -33,8 +33,8 @@ This project is intended to be used with the latest Active LTS release of [Node.
 To clone the repository use the following commands:
 
 ```sh
-git clone https://github.com/Tezsure/tezsure-OrO.git
-cd tezsure-OrO
+git clone https://github.com/Tezsure/OrO.git
+cd OrO
 npm install
 ```
 
@@ -392,10 +392,10 @@ A custom data is the data which we get from API. It can be of two types string a
 We'll be adding some new set of features to provide more customisation to OrO Node, stay tuned!
 
 ## License
-Licensed under the MIT. See the [LICENSE](https://github.com/Tezsure/tezsure-OrO/blob/master/LICENSE) file for details.
+Licensed under the MIT. See the [LICENSE](https://github.com/Tezsure/OrO/blob/master/LICENSE) file for details.
 
 [nodejs]: https://nodejs.org/dist/latest-v12.x/docs/api/
 [smartpy]: https://smartpy.io/dev/
-[client-contract]: https://github.com/Tezsure/tezsure-OrO/tree/master/client-contract
-[test]: https://github.com/Tezsure/tezsure-OrO/tree/master/test
-[oro-contract]: https://github.com/Tezsure/tezsure-OrO/tree/master/oro-contract
+[client-contract]: https://github.com/Tezsure/OrO/tree/master/client-contract
+[test]: https://github.com/Tezsure/OrO/tree/master/test
+[oro-contract]: https://github.com/Tezsure/OrO/tree/master/oro-contract

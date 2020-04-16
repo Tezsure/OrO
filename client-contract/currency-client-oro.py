@@ -16,7 +16,7 @@ class OracleClient(sp.Contract):
         self.data.value = params.value
 
 
-@sp.add_test(name="try")
+@sp.add_test(name="testOrOclient")
 def test():
     client = OracleClient()
     scenario = sp.test_scenario()

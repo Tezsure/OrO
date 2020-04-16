@@ -25,7 +25,7 @@ class WeatherOracle(sp.Contract):
                 
             
 
-@sp.add_test(name="try")
+@sp.add_test(name="testWeatherOrO")
 def test():
     scenario = sp.test_scenario()
     oracle = WeatherOracle(sp.address('tz1beX9ZDev6SVVW9yJwNYA89362ZpWuDwou'))

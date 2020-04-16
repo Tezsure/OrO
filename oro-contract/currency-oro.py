@@ -31,7 +31,7 @@ class CurrencyConverter(sp.Contract):
         sp.if self.data.keysset.contains(sp.sender):
             self.data.apidata[params.key]=params.value
         
-@sp.add_test(name="test")
+@sp.add_test(name="testCurrencyOrO")
 def test():
     oracle = CurrencyConverter(sp.address("tz1XrHHchSehNudgAq1aQaoB4Bw7N4hZ1nkH"))
     scenario = sp.test_scenario()
