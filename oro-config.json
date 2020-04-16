@@ -1,0 +1,56 @@
+{
+   "tezosConfig": {
+      "nodeAddress": "ADDRESS-WHERE-YOU-ARE-GOING-TO-DEPLOY YOUR-SMART-CONTRACT",
+      "publicKey": "PUBLIC-KEY-WHICH-WILL-BE-USED-TO-SEND-TRANSACTION-TO-BLOCKCHAIN",
+      "privateKey": "PRIVATE-KEY-WHICH-WILL-BE-USED-TO-SEND-TRANSACTION-TO-BLOCKCHAIN",
+      "keyHash": "KEY-HASH-WHICH-WILL-BE-USED-TO-SEND-TRANSACTION-TO-BLOCKCHAIN",
+      "conseilServerAddress": "CONSEIL-SERVER-ADDRESS",
+      "conseilServerAPIKEY": "API-KEY-FROM-NAUTILAS-CLOUD",
+      "conseilServerNetwork": "NETWORK-NAME FOR EXAMPLE (carthagenet)"
+   },
+   "oracleInterval": 30,
+   "oracleConfig": [
+      {
+         "entryPointMichelson": "",
+         "contractAddress": "KT1-ADDRESS-OF-ORO-CONTRACT",
+         "endPoint": "ENDPOINT_TO_READ_DATA_FROM",
+         "fields": [
+            {
+               "type": "fixed",
+               "nameInEntryPoint": "",
+               "data": ""
+            },
+            {
+               "type": "custom",
+               "nameInEntryPoint": "",
+               "path": "",
+               "isString": false,
+               "doFloor": true,
+               "doCeil": false,
+               "multiplier": 1
+            }
+         ]
+      },
+      {
+         "entryPointMichelson": "",
+         "contractAddress": "KT1-ADDRESS-OF-ORO-CONTRACT",
+         "endPoint": "ENDPOINT_TO_READ_DATA_FROM",
+         "fields": [
+            {
+               "type": "fixed",
+               "nameInEntryPoint": "",
+               "data": ""
+            },
+            {
+               "type": "custom",
+               "nameInEntryPoint": "",
+               "path": "",
+               "isString": false,
+               "doFloor": true,
+               "doCeil": false,
+               "multiplier": 100
+            }
+         ]
+      }
+   ]
+}

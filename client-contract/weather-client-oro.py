@@ -17,7 +17,7 @@ class OracleClient(sp.Contract):
         self.data.humidity = params.humidity
 
 
-@sp.add_test(name="clientTest")
+@sp.add_test(name="try")
 def test():
     client = OracleClient()
     scenario = sp.test_scenario()
