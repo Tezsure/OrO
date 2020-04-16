@@ -2,7 +2,7 @@ import { createLogger, transports } from 'winston';
 import { Oracle } from './controllers/oracle';
 import { EndPointReader } from './controllers/endPointReader';
 import { ContractHandler } from './controllers/contractHandler';
-import * as weatherConfig from '../weather-oro-config.json';
+import * as config from '../oro-config.json';
 
 const logger = createLogger({
   transports: [
@@ -12,8 +12,8 @@ const logger = createLogger({
 });
 
 const endPointReader = new EndPointReader(logger);
-const contractHandler = new ContractHandler(logger, weatherConfig.tezosConfig);
-const oracle = new Oracle(weatherConfig.oracleConfig, weatherConfig.oracleInterval, logger, endPointReader, contractHandler);
+const contractHandler = new ContractHandler(logger, config.tezosConfig);
+const oracle = new Oracle(config.oracleConfig, config.oracleInterval, logger, endPointReader, contractHandler);
 oracle.run();
 
 

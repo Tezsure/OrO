@@ -3,10 +3,11 @@ const fs = require('fs');
 
 const tezosNode = 'https://testnet.tezster.tech';
 const CONTRACT_OWNER = 'tz1V8NMNR5LBveuGJYruujnYwgv4tWF1oXZQ';
-const CONTRACT_FILE = 'weather-oro.tz.json'
+const CONTRACT_FILE = 'weather-oro.tz.json';
+const STORAGE = `{ "prim": "Pair", "args": [ [], [ { "string": "${CONTRACT_OWNER}" } ] ] }`;
 
 async function deployContract() {
-    const data = fs.readFileSync(__dirname + '/' + CONTRACT_FILE , {encoding:'utf8'}); 
+  const contractData = fs.readFileSync(__dirname + '/' + CONTRACT_FILE , {encoding:'utf8'}); 
   const keystore = {
     publicKey: 'edpkttgvzu7bVqwdz6cWu2CRT4kNjjXKKrfDNTdVrv9Z5LzmNK6Ljm',
     privateKey: 'edskRvTq52CssMWPNNaX5LLFP4rA4WJVeSUTufGpwovrPUF9qwCU9cP3kPFQYHz2YPKBnAcJ9qHKJPRd1hwrFFpAUS2Hr52Eyb',
@@ -15,7 +16,7 @@ async function deployContract() {
     storeType: conseiljs.StoreType.Fundraiser
   };
 
-  const storage = `{ "prim": "Pair", "args": [ [], [ { "string": "${CONTRACT_OWNER}" } ] ] }`;
+
   console.log('Deploying Contract .... ');
   try {
     const result = await conseiljs.TezosNodeWriter.sendContractOriginationOperation(
@@ -27,8 +28,8 @@ async function deployContract() {
       '',
       10000,
       100000,
-      data,
-      storage,
+      contractData,
+      STORAGE,
       conseiljs.TezosParameterFormat.Micheline
     );
   

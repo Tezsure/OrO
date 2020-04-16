@@ -1,0 +1,74 @@
+{
+   "tezosConfig": {
+      "nodeAddress": "https://testnet.tezster.tech",
+      "publicKey": "edpkttgvzu7bVqwdz6cWu2CRT4kNjjXKKrfDNTdVrv9Z5LzmNK6Ljm",
+      "privateKey": "edskRvTq52CssMWPNNaX5LLFP4rA4WJVeSUTufGpwovrPUF9qwCU9cP3kPFQYHz2YPKBnAcJ9qHKJPRd1hwrFFpAUS2Hr52Eyb",
+      "keyHash": "tz1V8NMNR5LBveuGJYruujnYwgv4tWF1oXZQ",
+      "conseilServerAddress": "https://conseil-dev.cryptonomic-infra.tech:443",
+      "conseilServerAPIKEY": "4e3328e0-8598-4e70-a43e-286d9be8253c",
+      "conseilServerNetwork": "carthagenet"
+   },
+   "oracleInterval": 30,
+   "oracleConfig": [
+      {
+         "entryPointMichelson": "(Left (Pair (Pair 'city' temperature) (Pair pressure humidity)))",
+         "contractAddress": "KT1SipDxKukz2QNzudaP86Wp3qWvGxahBbT6",
+         "endPoint": "https://api.weatherstack.com/current?access_key=338232b69d83113f1e0df6ef8aa735c9&query=Pondicherry",
+         "fields": [
+            {
+               "type": "fixed",
+               "nameInEntryPoint": "city",
+               "data": "Pondicherry"
+            },
+            {
+               "type": "custom",
+               "nameInEntryPoint": "temperature",
+               "path": "current.temperature",
+               "isString": false,
+               "doFloor": true,
+               "doCeil": false,
+               "multiplier": 1
+            },
+            {
+               "type": "custom",
+               "nameInEntryPoint": "pressure",
+               "path": "current.pressure",
+               "isString": false,
+               "doFloor": true,
+               "doCeil": false,
+               "multiplier": 1
+            },
+            {
+               "type": "custom",
+               "nameInEntryPoint": "humidity",
+               "path": "current.humidity",
+               "isString": false,
+               "doFloor": true,
+               "doCeil": false,
+               "multiplier": 1
+            }
+         ]
+      },
+      {
+         "entryPointMichelson": "(Right (Pair 'key' value))",
+         "contractAddress": "KT1DVosgRGn62WaqNkUMirC68hrL1asw55hQ",
+         "endPoint": "https://prime.exchangerate-api.com/v5/4c2eef4d3cc8be70f4e2b089/latest/USD",
+         "fields": [
+            {
+               "type": "fixed",
+               "nameInEntryPoint": "key",
+               "data": "USD_INR"
+            },
+            {
+               "type": "custom",
+               "nameInEntryPoint": "value",
+               "path": "conversion_rates.INR",
+               "isString": false,
+               "doFloor": true,
+               "doCeil": false,
+               "multiplier": 100
+            }
+         ]
+      }
+   ]
+}

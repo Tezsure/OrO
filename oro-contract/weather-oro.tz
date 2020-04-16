@@ -1,0 +1,145 @@
+parameter (or (pair %feedData (pair (string %city) (int %humidity)) (pair (int %pressure) (int %temperature))) (string %getDataFromOrO));
+storage   (pair (map %apidata string (pair (int %humidity) (pair (int %pressure) (int %temperature)))) (set %keysset address));
+code
+  {
+    DUP;        # pair @parameter @storage : pair @parameter @storage
+    CDR;        # @storage : pair @parameter @storage
+    SWAP;       # pair @parameter @storage : @storage
+    CAR;        # @parameter : @storage
+    IF_LEFT
+      {
+        # Entry point: feedData # @parameter%feedData : @storage
+        # if self.data.keysset.contains(sp.sender): # @parameter%feedData : @storage
+        SWAP;       # @storage : @parameter%feedData
+        DUP;        # @storage : @storage : @parameter%feedData
+        DUG 2;      # @storage : @parameter%feedData : @storage
+        CDR;        # set address : @parameter%feedData : @storage
+        SENDER;     # address : set address : @parameter%feedData : @storage
+        MEM;        # bool : @parameter%feedData : @storage
+        IF
+          {
+            # self.data.apidata[params.city] = sp.record(humidity = params.humidity, pressure = params.pressure, temperature = params.temperature) # @parameter%feedData : @storage
+            SWAP;       # @storage : @parameter%feedData
+            DUP;        # @storage : @storage : @parameter%feedData
+            DUG 2;      # @storage : @parameter%feedData : @storage
+            DUP;        # @storage : @storage : @parameter%feedData : @storage
+            CDR;        # set address : @storage : @parameter%feedData : @storage
+            SWAP;       # @storage : set address : @parameter%feedData : @storage
+            CAR;        # map string (pair (int %humidity) (pair (int %pressure) (int %temperature))) : set address : @parameter%feedData : @storage
+            DIG 2;      # @parameter%feedData : map string (pair (int %humidity) (pair (int %pressure) (int %temperature))) : set address : @storage
+            DUP;        # @parameter%feedData : @parameter%feedData : map string (pair (int %humidity) (pair (int %pressure) (int %temperature))) : set address : @storage
+            DUG 3;      # @parameter%feedData : map string (pair (int %humidity) (pair (int %pressure) (int %temperature))) : set address : @parameter%feedData : @storage
+            CDDR;       # int : map string (pair (int %humidity) (pair (int %pressure) (int %temperature))) : set address : @parameter%feedData : @storage
+            DIG 3;      # @parameter%feedData : int : map string (pair (int %humidity) (pair (int %pressure) (int %temperature))) : set address : @storage
+            DUP;        # @parameter%feedData : @parameter%feedData : int : map string (pair (int %humidity) (pair (int %pressure) (int %temperature))) : set address : @storage
+            DUG 4;      # @parameter%feedData : int : map string (pair (int %humidity) (pair (int %pressure) (int %temperature))) : set address : @parameter%feedData : @storage
+            CDAR;       # int : int : map string (pair (int %humidity) (pair (int %pressure) (int %temperature))) : set address : @parameter%feedData : @storage
+            PAIR %pressure %temperature; # pair (int %pressure) (int %temperature) : map string (pair (int %humidity) (pair (int %pressure) (int %temperature))) : set address : @parameter%feedData : @storage
+            DIG 3;      # @parameter%feedData : pair (int %pressure) (int %temperature) : map string (pair (int %humidity) (pair (int %pressure) (int %temperature))) : set address : @storage
+            DUP;        # @parameter%feedData : @parameter%feedData : pair (int %pressure) (int %temperature) : map string (pair (int %humidity) (pair (int %pressure) (int %temperature))) : set address : @storage
+            DUG 4;      # @parameter%feedData : pair (int %pressure) (int %temperature) : map string (pair (int %humidity) (pair (int %pressure) (int %temperature))) : set address : @parameter%feedData : @storage
+            CADR;       # int : pair (int %pressure) (int %temperature) : map string (pair (int %humidity) (pair (int %pressure) (int %temperature))) : set address : @parameter%feedData : @storage
+            PAIR %humidity; # pair (int %humidity) (pair (int %pressure) (int %temperature)) : map string (pair (int %humidity) (pair (int %pressure) (int %temperature))) : set address : @parameter%feedData : @storage
+            SOME;       # option (pair (int %humidity) (pair (int %pressure) (int %temperature))) : map string (pair (int %humidity) (pair (int %pressure) (int %temperature))) : set address : @parameter%feedData : @storage
+            DIG 3;      # @parameter%feedData : option (pair (int %humidity) (pair (int %pressure) (int %temperature))) : map string (pair (int %humidity) (pair (int %pressure) (int %temperature))) : set address : @storage
+            DUP;        # @parameter%feedData : @parameter%feedData : option (pair (int %humidity) (pair (int %pressure) (int %temperature))) : map string (pair (int %humidity) (pair (int %pressure) (int %temperature))) : set address : @storage
+            DUG 4;      # @parameter%feedData : option (pair (int %humidity) (pair (int %pressure) (int %temperature))) : map string (pair (int %humidity) (pair (int %pressure) (int %temperature))) : set address : @parameter%feedData : @storage
+            CAAR;       # string : option (pair (int %humidity) (pair (int %pressure) (int %temperature))) : map string (pair (int %humidity) (pair (int %pressure) (int %temperature))) : set address : @parameter%feedData : @storage
+            UPDATE;     # map string (pair (int %humidity) (pair (int %pressure) (int %temperature))) : set address : @parameter%feedData : @storage
+            PAIR;       # pair (map string (pair (int %humidity) (pair (int %pressure) (int %temperature)))) (set address) : @parameter%feedData : @storage
+            DUG 2;      # @parameter%feedData : @storage : pair (map string (pair (int %humidity) (pair (int %pressure) (int %temperature)))) (set address)
+            SWAP;       # @storage : @parameter%feedData : pair (map string (pair (int %humidity) (pair (int %pressure) (int %temperature)))) (set address)
+            DROP;       # @parameter%feedData : pair (map string (pair (int %humidity) (pair (int %pressure) (int %temperature)))) (set address)
+          }
+          {}; # @parameter%feedData : pair (map string (pair (int %humidity) (pair (int %pressure) (int %temperature)))) (set address)
+        DROP;       # pair (map string (pair (int %humidity) (pair (int %pressure) (int %temperature)))) (set address)
+        NIL operation; # list operation : pair (map string (pair (int %humidity) (pair (int %pressure) (int %temperature)))) (set address)
+      }
+      {
+        # Entry point: getDataFromOrO # @parameter%getDataFromOrO : @storage
+        # if sp.amount == sp.mutez(3000): # @parameter%getDataFromOrO : @storage
+        PUSH mutez 3000; # mutez : @parameter%getDataFromOrO : @storage
+        AMOUNT;     # mutez : mutez : @parameter%getDataFromOrO : @storage
+        COMPARE;    # int : @parameter%getDataFromOrO : @storage
+        EQ;         # bool : @parameter%getDataFromOrO : @storage
+        IF
+          {
+            # if self.data.apidata.contains(params.city): # @parameter%getDataFromOrO : @storage
+            SWAP;       # @storage : @parameter%getDataFromOrO
+            DUP;        # @storage : @storage : @parameter%getDataFromOrO
+            DUG 2;      # @storage : @parameter%getDataFromOrO : @storage
+            CAR;        # map string (pair (int %humidity) (pair (int %pressure) (int %temperature))) : @parameter%getDataFromOrO : @storage
+            SWAP;       # @parameter%getDataFromOrO : map string (pair (int %humidity) (pair (int %pressure) (int %temperature))) : @storage
+            DUP;        # @parameter%getDataFromOrO : @parameter%getDataFromOrO : map string (pair (int %humidity) (pair (int %pressure) (int %temperature))) : @storage
+            DUG 2;      # @parameter%getDataFromOrO : map string (pair (int %humidity) (pair (int %pressure) (int %temperature))) : @parameter%getDataFromOrO : @storage
+            MEM;        # bool : @parameter%getDataFromOrO : @storage
+            IF
+              {
+                # sp.transfer(self.data.apidata[params.city], sp.tez(0), sp.contract(sp.TRecord(humidity = sp.TInt, pressure = sp.TInt, temperature = sp.TInt), sp.sender, entry_point='receiveDataFromOrO').open_some()) # @parameter%getDataFromOrO : @storage
+                NIL operation; # list operation : @parameter%getDataFromOrO : @storage
+                SENDER;     # address : list operation : @parameter%getDataFromOrO : @storage
+                CONTRACT %receiveDataFromOrO (pair (int %humidity) (pair (int %pressure) (int %temperature))); # option (contract (pair (int %humidity) (pair (int %pressure) (int %temperature)))) : list operation : @parameter%getDataFromOrO : @storage
+                IF_SOME
+                  {}
+                  {
+                    PUSH unit Unit; # unit : list operation : @parameter%getDataFromOrO : @storage
+                    FAILWITH;   # FAILED
+                  }; # @some : list operation : @parameter%getDataFromOrO : @storage
+                PUSH mutez 0; # mutez : @some : list operation : @parameter%getDataFromOrO : @storage
+                DIG 4;      # @storage : mutez : @some : list operation : @parameter%getDataFromOrO
+                DUP;        # @storage : @storage : mutez : @some : list operation : @parameter%getDataFromOrO
+                DUG 5;      # @storage : mutez : @some : list operation : @parameter%getDataFromOrO : @storage
+                CAR;        # map string (pair (int %humidity) (pair (int %pressure) (int %temperature))) : mutez : @some : list operation : @parameter%getDataFromOrO : @storage
+                DIG 4;      # @parameter%getDataFromOrO : map string (pair (int %humidity) (pair (int %pressure) (int %temperature))) : mutez : @some : list operation : @storage
+                DUP;        # @parameter%getDataFromOrO : @parameter%getDataFromOrO : map string (pair (int %humidity) (pair (int %pressure) (int %temperature))) : mutez : @some : list operation : @storage
+                DUG 5;      # @parameter%getDataFromOrO : map string (pair (int %humidity) (pair (int %pressure) (int %temperature))) : mutez : @some : list operation : @parameter%getDataFromOrO : @storage
+                GET;        # option (pair (int %humidity) (pair (int %pressure) (int %temperature))) : mutez : @some : list operation : @parameter%getDataFromOrO : @storage
+                IF_SOME
+                  {
+                    # of_some: Get-item:19 # @some : mutez : @some : list operation : @parameter%getDataFromOrO : @storage
+                  }
+                  {
+                    PUSH string "Get-item:19"; # string : mutez : @some : list operation : @parameter%getDataFromOrO : @storage
+                    FAILWITH;   # FAILED
+                  }; # @some : mutez : @some : list operation : @parameter%getDataFromOrO : @storage
+                TRANSFER_TOKENS; # operation : list operation : @parameter%getDataFromOrO : @storage
+                CONS;       # list operation : @parameter%getDataFromOrO : @storage
+              }
+              {
+                # sp.transfer(sp.record(humidity = 0, pressure = 0, temperature = 0), sp.tez(0), sp.contract(sp.TRecord(humidity = sp.TInt, pressure = sp.TInt, temperature = sp.TInt), sp.sender, entry_point='receiveDataFromOrO').open_some()) # @parameter%getDataFromOrO : @storage
+                NIL operation; # list operation : @parameter%getDataFromOrO : @storage
+                SENDER;     # address : list operation : @parameter%getDataFromOrO : @storage
+                CONTRACT %receiveDataFromOrO (pair (int %humidity) (pair (int %pressure) (int %temperature))); # option (contract (pair (int %humidity) (pair (int %pressure) (int %temperature)))) : list operation : @parameter%getDataFromOrO : @storage
+                IF_SOME
+                  {}
+                  {
+                    PUSH unit Unit; # unit : list operation : @parameter%getDataFromOrO : @storage
+                    FAILWITH;   # FAILED
+                  }; # @some : list operation : @parameter%getDataFromOrO : @storage
+                PUSH mutez 0; # mutez : @some : list operation : @parameter%getDataFromOrO : @storage
+                PUSH (pair (int %humidity) (pair (int %pressure) (int %temperature))) (Pair 0 (Pair 0 0)); # pair (int %humidity) (pair (int %pressure) (int %temperature)) : mutez : @some : list operation : @parameter%getDataFromOrO : @storage
+                TRANSFER_TOKENS; # operation : list operation : @parameter%getDataFromOrO : @storage
+                CONS;       # list operation : @parameter%getDataFromOrO : @storage
+              }; # list operation : @parameter%getDataFromOrO : @storage
+          }
+          {
+            # sp.transfer(sp.record(humidity = 0, pressure = 0, temperature = 0), sp.tez(0), sp.contract(sp.TRecord(humidity = sp.TInt, pressure = sp.TInt, temperature = sp.TInt), sp.sender, entry_point='receiveDataFromOrO').open_some()) # @parameter%getDataFromOrO : @storage
+            NIL operation; # list operation : @parameter%getDataFromOrO : @storage
+            SENDER;     # address : list operation : @parameter%getDataFromOrO : @storage
+            CONTRACT %receiveDataFromOrO (pair (int %humidity) (pair (int %pressure) (int %temperature))); # option (contract (pair (int %humidity) (pair (int %pressure) (int %temperature)))) : list operation : @parameter%getDataFromOrO : @storage
+            IF_SOME
+              {}
+              {
+                PUSH unit Unit; # unit : list operation : @parameter%getDataFromOrO : @storage
+                FAILWITH;   # FAILED
+              }; # @some : list operation : @parameter%getDataFromOrO : @storage
+            PUSH mutez 0; # mutez : @some : list operation : @parameter%getDataFromOrO : @storage
+            PUSH (pair (int %humidity) (pair (int %pressure) (int %temperature))) (Pair 0 (Pair 0 0)); # pair (int %humidity) (pair (int %pressure) (int %temperature)) : mutez : @some : list operation : @parameter%getDataFromOrO : @storage
+            TRANSFER_TOKENS; # operation : list operation : @parameter%getDataFromOrO : @storage
+            CONS;       # list operation : @parameter%getDataFromOrO : @storage
+          }; # list operation : @parameter%getDataFromOrO : @storage
+        SWAP;       # @parameter%getDataFromOrO : list operation : @storage
+        DROP;       # list operation : @storage
+      }; # list operation : pair (map string (pair (int %humidity) (pair (int %pressure) (int %temperature)))) (set address)
+    PAIR;       # pair (list operation) (pair (map string (pair (int %humidity) (pair (int %pressure) (int %temperature)))) (set address))
+  } # pair (list operation) (pair (map string (pair (int %humidity) (pair (int %pressure) (int %temperature)))) (set address));

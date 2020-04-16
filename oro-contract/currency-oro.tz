@@ -1,0 +1,137 @@
+parameter (or (pair %feedData (string %key) (int %value)) (string %getRequestFromClient));
+storage   (pair (map %apidata string int) (set %keysset address));
+code
+  {
+    DUP;        # pair @parameter @storage : pair @parameter @storage
+    CDR;        # @storage : pair @parameter @storage
+    SWAP;       # pair @parameter @storage : @storage
+    CAR;        # @parameter : @storage
+    IF_LEFT
+      {
+        # Entry point: feedData # @parameter%feedData : @storage
+        # if self.data.keysset.contains(sp.sender): # @parameter%feedData : @storage
+        SWAP;       # @storage : @parameter%feedData
+        DUP;        # @storage : @storage : @parameter%feedData
+        DUG 2;      # @storage : @parameter%feedData : @storage
+        CDR;        # set address : @parameter%feedData : @storage
+        SENDER;     # address : set address : @parameter%feedData : @storage
+        MEM;        # bool : @parameter%feedData : @storage
+        IF
+          {
+            # self.data.apidata[params.key] = params.value # @parameter%feedData : @storage
+            SWAP;       # @storage : @parameter%feedData
+            DUP;        # @storage : @storage : @parameter%feedData
+            DUG 2;      # @storage : @parameter%feedData : @storage
+            DUP;        # @storage : @storage : @parameter%feedData : @storage
+            CDR;        # set address : @storage : @parameter%feedData : @storage
+            SWAP;       # @storage : set address : @parameter%feedData : @storage
+            CAR;        # map string int : set address : @parameter%feedData : @storage
+            DIG 2;      # @parameter%feedData : map string int : set address : @storage
+            DUP;        # @parameter%feedData : @parameter%feedData : map string int : set address : @storage
+            DUG 3;      # @parameter%feedData : map string int : set address : @parameter%feedData : @storage
+            CDR;        # int : map string int : set address : @parameter%feedData : @storage
+            SOME;       # option int : map string int : set address : @parameter%feedData : @storage
+            DIG 3;      # @parameter%feedData : option int : map string int : set address : @storage
+            DUP;        # @parameter%feedData : @parameter%feedData : option int : map string int : set address : @storage
+            DUG 4;      # @parameter%feedData : option int : map string int : set address : @parameter%feedData : @storage
+            CAR;        # string : option int : map string int : set address : @parameter%feedData : @storage
+            UPDATE;     # map string int : set address : @parameter%feedData : @storage
+            PAIR;       # pair (map string int) (set address) : @parameter%feedData : @storage
+            DUG 2;      # @parameter%feedData : @storage : pair (map string int) (set address)
+            SWAP;       # @storage : @parameter%feedData : pair (map string int) (set address)
+            DROP;       # @parameter%feedData : pair (map string int) (set address)
+          }
+          {}; # @parameter%feedData : pair (map string int) (set address)
+        DROP;       # pair (map string int) (set address)
+        NIL operation; # list operation : pair (map string int) (set address)
+      }
+      {
+        # Entry point: getRequestFromClient # @parameter%getRequestFromClient : @storage
+        # if self.data.apidata.contains(params.convkey): # @parameter%getRequestFromClient : @storage
+        SWAP;       # @storage : @parameter%getRequestFromClient
+        DUP;        # @storage : @storage : @parameter%getRequestFromClient
+        DUG 2;      # @storage : @parameter%getRequestFromClient : @storage
+        CAR;        # map string int : @parameter%getRequestFromClient : @storage
+        SWAP;       # @parameter%getRequestFromClient : map string int : @storage
+        DUP;        # @parameter%getRequestFromClient : @parameter%getRequestFromClient : map string int : @storage
+        DUG 2;      # @parameter%getRequestFromClient : map string int : @parameter%getRequestFromClient : @storage
+        MEM;        # bool : @parameter%getRequestFromClient : @storage
+        IF
+          {
+            # if sp.amount == sp.mutez(2000): # @parameter%getRequestFromClient : @storage
+            PUSH mutez 2000; # mutez : @parameter%getRequestFromClient : @storage
+            AMOUNT;     # mutez : mutez : @parameter%getRequestFromClient : @storage
+            COMPARE;    # int : @parameter%getRequestFromClient : @storage
+            EQ;         # bool : @parameter%getRequestFromClient : @storage
+            IF
+              {
+                # sp.transfer(sp.record(comments = 'Success', value = self.data.apidata[params.convkey]), sp.tez(0), sp.contract(sp.TRecord(comments = sp.TString, value = sp.TInt), sp.sender, entry_point='receiveDataFromOrO').open_some()) # @parameter%getRequestFromClient : @storage
+                NIL operation; # list operation : @parameter%getRequestFromClient : @storage
+                SENDER;     # address : list operation : @parameter%getRequestFromClient : @storage
+                CONTRACT %receiveDataFromOrO (pair (string %comments) (int %value)); # option (contract (pair (string %comments) (int %value))) : list operation : @parameter%getRequestFromClient : @storage
+                IF_SOME
+                  {}
+                  {
+                    PUSH unit Unit; # unit : list operation : @parameter%getRequestFromClient : @storage
+                    FAILWITH;   # FAILED
+                  }; # @some : list operation : @parameter%getRequestFromClient : @storage
+                PUSH mutez 0; # mutez : @some : list operation : @parameter%getRequestFromClient : @storage
+                DIG 4;      # @storage : mutez : @some : list operation : @parameter%getRequestFromClient
+                DUP;        # @storage : @storage : mutez : @some : list operation : @parameter%getRequestFromClient
+                DUG 5;      # @storage : mutez : @some : list operation : @parameter%getRequestFromClient : @storage
+                CAR;        # map string int : mutez : @some : list operation : @parameter%getRequestFromClient : @storage
+                DIG 4;      # @parameter%getRequestFromClient : map string int : mutez : @some : list operation : @storage
+                DUP;        # @parameter%getRequestFromClient : @parameter%getRequestFromClient : map string int : mutez : @some : list operation : @storage
+                DUG 5;      # @parameter%getRequestFromClient : map string int : mutez : @some : list operation : @parameter%getRequestFromClient : @storage
+                GET;        # option int : mutez : @some : list operation : @parameter%getRequestFromClient : @storage
+                IF_SOME
+                  {
+                    # of_some: Get-item:9 # @some : mutez : @some : list operation : @parameter%getRequestFromClient : @storage
+                  }
+                  {
+                    PUSH string "Get-item:9"; # string : mutez : @some : list operation : @parameter%getRequestFromClient : @storage
+                    FAILWITH;   # FAILED
+                  }; # @some : mutez : @some : list operation : @parameter%getRequestFromClient : @storage
+                PUSH string "Success"; # string : @some : mutez : @some : list operation : @parameter%getRequestFromClient : @storage
+                PAIR %comments %value; # pair (string %comments) (@some %value) : mutez : @some : list operation : @parameter%getRequestFromClient : @storage
+                TRANSFER_TOKENS; # operation : list operation : @parameter%getRequestFromClient : @storage
+                CONS;       # list operation : @parameter%getRequestFromClient : @storage
+              }
+              {
+                # sp.transfer(sp.record(comments = 'Invalid amount', value = 0), sp.tez(0), sp.contract(sp.TRecord(comments = sp.TString, value = sp.TInt), sp.sender, entry_point='receiveDataFromOrO').open_some()) # @parameter%getRequestFromClient : @storage
+                NIL operation; # list operation : @parameter%getRequestFromClient : @storage
+                SENDER;     # address : list operation : @parameter%getRequestFromClient : @storage
+                CONTRACT %receiveDataFromOrO (pair (string %comments) (int %value)); # option (contract (pair (string %comments) (int %value))) : list operation : @parameter%getRequestFromClient : @storage
+                IF_SOME
+                  {}
+                  {
+                    PUSH unit Unit; # unit : list operation : @parameter%getRequestFromClient : @storage
+                    FAILWITH;   # FAILED
+                  }; # @some : list operation : @parameter%getRequestFromClient : @storage
+                PUSH mutez 0; # mutez : @some : list operation : @parameter%getRequestFromClient : @storage
+                PUSH (pair (string %comments) (int %value)) (Pair "Invalid amount" 0); # pair (string %comments) (int %value) : mutez : @some : list operation : @parameter%getRequestFromClient : @storage
+                TRANSFER_TOKENS; # operation : list operation : @parameter%getRequestFromClient : @storage
+                CONS;       # list operation : @parameter%getRequestFromClient : @storage
+              }; # list operation : @parameter%getRequestFromClient : @storage
+          }
+          {
+            # sp.transfer(sp.record(comments = 'Bad request', value = 0), sp.tez(0), sp.contract(sp.TRecord(comments = sp.TString, value = sp.TInt), sp.sender, entry_point='receiveDataFromOrO').open_some()) # @parameter%getRequestFromClient : @storage
+            NIL operation; # list operation : @parameter%getRequestFromClient : @storage
+            SENDER;     # address : list operation : @parameter%getRequestFromClient : @storage
+            CONTRACT %receiveDataFromOrO (pair (string %comments) (int %value)); # option (contract (pair (string %comments) (int %value))) : list operation : @parameter%getRequestFromClient : @storage
+            IF_SOME
+              {}
+              {
+                PUSH unit Unit; # unit : list operation : @parameter%getRequestFromClient : @storage
+                FAILWITH;   # FAILED
+              }; # @some : list operation : @parameter%getRequestFromClient : @storage
+            PUSH mutez 0; # mutez : @some : list operation : @parameter%getRequestFromClient : @storage
+            PUSH (pair (string %comments) (int %value)) (Pair "Bad request" 0); # pair (string %comments) (int %value) : mutez : @some : list operation : @parameter%getRequestFromClient : @storage
+            TRANSFER_TOKENS; # operation : list operation : @parameter%getRequestFromClient : @storage
+            CONS;       # list operation : @parameter%getRequestFromClient : @storage
+          }; # list operation : @parameter%getRequestFromClient : @storage
+        SWAP;       # @parameter%getRequestFromClient : list operation : @storage
+        DROP;       # list operation : @storage
+      }; # list operation : pair (map string int) (set address)
+    PAIR;       # pair (list operation) (pair (map string int) (set address))
+  } # pair (list operation) (pair (map string int) (set address));
