@@ -1,4 +1,4 @@
-# Tezsure-Oracle
+# OrO Node
 
 A simple oracle server to provide off-chain data on tezos blockchain.
 
