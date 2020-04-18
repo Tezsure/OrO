@@ -7,7 +7,7 @@ class CompanyStockPriceOracle(sp.Contract):
     @sp.entry_point
     def feedData(self,params):
         sp.if (self.data.keysset.contains(sp.sender)):
-            self.data.stockData[params.companyName] = sp.record(price = params.price, marketCap = params.marketCap)
+            self.data.stockData[params.ticker] = sp.record(price = params.price, marketCap = params.marketCap)
             
     @sp.entry_point
     def addDataContributor(self,params):
@@ -20,7 +20,7 @@ class CompanyStockPriceOracle(sp.Contract):
         contract = sp.contract(sp.TRecord(price = sp.TInt, marketCap = sp.TInt),sp.sender,entry_point = "receiveDataFromOrO").open_some()
         
         sp.if sp.amount == sp.mutez(5000):
-            sp.transfer(self.data.stockData[params.companyName],sp.mutez(0),contract)
+            sp.transfer(self.data.stockData[params.ticker],sp.mutez(0),contract)
         sp.else:
             sp.transfer(errcd,sp.amount,contract)
 
@@ -29,12 +29,9 @@ def test():
     scenario = sp.test_scenario()
     oracle = CompanyStockPriceOracle(sp.address('tz1XrHHchSehNudgAq1aQaoB4Bw7N4hZ1nkH'))
     scenario += oracle
-    scenario += oracle.feedData(companyName = "Tesla", price = 7098 , marketCap = 7097000).run(sender=sp.address('tz1XrHHchSehNudgAq1aQaoB4Bw7N4hZ1nkH'))
-    scenario += oracle.feedData(companyName = "Facebook", price = 5450 , marketCap = 54579100).run(sender=sp.address('tz1-AAA'))
+    scenario += oracle.feedData(ticker = "TSLA", price = 7098 , marketCap = 7097000).run(sender=sp.address('tz1XrHHchSehNudgAq1aQaoB4Bw7N4hZ1nkH'))
+    scenario += oracle.feedData(ticker = "FB", price = 5450 , marketCap = 54579100).run(sender=sp.address('tz1-AAA'))
     scenario += oracle.addDataContributor(contributor=sp.address("tz1-AAA")).run(sender=sp.address('tz1XrHHchSehNudgAq1aQaoB4Bw7N4hZ1nkH'))
-    scenario += oracle.feedData(companyName = "Facebook", price = 5450 , marketCap = 54579100).run(sender=sp.address('tz1-AAA'))
-    scenario += oracle.getDataFromOrO(companyName = "Facebook").run(sender=sp.address("KT1-AAA") , amount = sp.mutez(5000))
-    scenario += oracle.getDataFromOrO(companyName = "Facebook").run(sender=sp.address("KT1-BBB") , amount = sp.mutez(4000))
-    
-    
-    
+    scenario += oracle.feedData(ticker = "FB", price = 5450 , marketCap = 54579100).run(sender=sp.address('tz1-AAA'))
+    scenario += oracle.getDataFromOrO(ticker = "FB").run(sender=sp.address("KT1-AAA") , amount = sp.mutez(5000))
+    scenario += oracle.getDataFromOrO(ticker = "FB").run(sender=sp.address("KT1-BBB") , amount = sp.mutez(4000))

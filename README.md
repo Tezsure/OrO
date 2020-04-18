@@ -100,7 +100,7 @@ You can configure an adapter for this as shown below.
          {
             "entryPointMichelson":"(Left (Pair (Pair 'city' temperature) (Pair pressure humidity)))",
             "contractAddress":"KT1-OrO-Contract-Address",
-            "link":"https://api.weatherstack.com/current?access_key=API_KEY&query=Pondicherry",
+            "endPoint":"https://api.weatherstack.com/current?access_key=API_KEY&query=Pondicherry",
             "fields":[
                {
                   "type":"fixed",
@@ -158,7 +158,7 @@ Now conversion key is a **fixed** data whereas value is **custom** or changing d
          {
             "entryPointMichelson":"(Right (Pair 'key' value))",
             "contractAddress":"KT1-OrO-Contract-Address",
-            "link":"https://prime.exchangerate-api.com/v5/API_KEY/latest/USD",
+            "endPoint":"https://prime.exchangerate-api.com/v5/API_KEY/latest/USD",
             "fields":[
                {
                   "type":"fixed",
@@ -206,7 +206,7 @@ As we have discussed example of weather and currency OrO let us show you how can
          {
             "entryPointMichelson":"(Left (Pair (Pair 'city' temperature) (Pair pressure humidity)))",
             "contractAddress":"KT1-OrO-Contract-Address",
-            "link":"http://api.weatherstack.com/current?access_key=API_KEY&query=Pondicherry",
+            "endPoint":"http://api.weatherstack.com/current?access_key=API_KEY&query=Pondicherry",
             "fields":[
                {
                   "type":"fixed",
@@ -245,7 +245,7 @@ As we have discussed example of weather and currency OrO let us show you how can
          {
             "entryPointMichelson":"(Right (Pair 'key' value))",
             "contractAddress":"KT1-OrO-Contract-Address",
-            "link":"https://prime.exchangerate-api.com/v5/API_KEY/latest/USD",
+            "endPoint":"https://prime.exchangerate-api.com/v5/API_KEY/latest/USD",
             "fields":[
                {
                   "type":"fixed",
